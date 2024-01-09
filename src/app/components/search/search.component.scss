@@ -1,0 +1,26 @@
+:host ::ng-deep .searchBox .p-inputtext {
+    width: 500px;
+}
+
+.no-border {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+
+
+.absolute-position {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+}
+
+i.pi {
+    position: absolute;
+    top: 50%;
+    right: 17px;
+    transform: translateY(0%);
+    cursor: pointer;
+    z-index: 999;
+}

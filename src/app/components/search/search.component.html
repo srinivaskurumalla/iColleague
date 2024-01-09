@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="mt-5">
+                <div class="input-group align-items-center relative-position">
+                    <span class="p-input-icon-right">
+                        <i class="pi pi-times absolute-position" style="font-size: 1 rem; cursor: pointer;"
+                            (click)="clearSearchInput()" pTooltip="Clear" tooltipPosition="right"></i>
+                        <p-autoComplete class="form-control searchBox no-border" [(ngModel)]="selectedQuery"
+                            [forceSelection]="true" [suggestions]="filteredQueries"
+                            (completeMethod)="filterData($event)" field="question" (input)="updateTypedValue($event)"
+                            (keyup.enter)="search(selectedQuery)">
+                        </p-autoComplete>
+                    </span>
+                    <p-button (onClick)="search(selectedQuery)" label="Search"></p-button>
+                </div>
+                <!-- <p-autoComplete class="form-control searchBox no-border" [(ngModel)]="selectedQuery"
+                    [forceSelection]="true" [suggestions]="filteredQueries" (completeMethod)="filterData($event)"
+                    field="question" (input)="updateTypedValue($event)" (keyup.enter)="search(selectedQuery)"> 
+                    <i class="pi pi-times" style="font-size: 1.5rem" (click)="clearSearchInput()"></i></p-autoComplete> -->
+
+            </div>
+        </div>
+    </div>
+    <div *ngIf="result.length > 0" class="d-flex">
+         Showing result for <div class="ms-1 text-primary"> {{searchQuery}} </div>
+    </div>
+
+    <div *ngFor="let res of result">
+        <app-card [data]="res"></app-card>
+
+    </div>
+
+    <p-toast></p-toast>
+</div>
+
+
+<div *ngFor="let message of messages">
+    {{ message.from.id }}: {{ message.text }}
+  </div>
+  
+  <input [(ngModel)]="newMessage" placeholder="Type a message..." />
+  <button (click)="sendMessage()">Send</button>

@@ -1,0 +1,40 @@
+{
+  "knowledgeBase": [
+    {
+      "id": 1,
+      "question": "Who is Centene Head?",
+      "answer": "Harsha Gogineni. For more information, please visit <a href='https://www.google.com/' target='_blank'>www.google.com</a>.",
+      "decription": "Full Details"
+    },
+    {
+      "id": 2,
+      "question": "Who is Healthcare HR in Hyderabad?",
+      "answer": "Ramya",
+      "decription": "Full Details"
+    },
+    {
+      "id": 3,
+      "question": "How to reset Password?",
+      "answer": "Follow the below steps:<br/>1. Go to the login page.<br/>2. Click on the 'Forgot Password' link.<br/>3. Enter your email address.<br/>4. Check your email for a password reset link.<br/>5. Click on the link and follow the instructions to reset your password.<br/><br/>For more information, visit <a href='http://www.example.com' target='_blank'>reset password</a>.",
+      "description": "Full Details"
+    },
+    {
+      "id": 4,
+      "question": "How to raise ticket in Bizx?",
+      "answer": "Follow the below steps to raise ticket",
+      "decription": "Full Details"
+    },
+    {
+      "id": 5,
+      "question": "How to apply for leave?",
+      "answer": "Follow the below steps to apply leave",
+      "decription": "Full Details"
+    },
+    {
+      "id": 6,
+      "question": "How to request for new Software?",
+      "answer": "Follow the below steps to install new software",
+      "decription": "Full Details"
+    }
+  ]
+}
