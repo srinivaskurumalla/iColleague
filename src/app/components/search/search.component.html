@@ -1,29 +1,31 @@
 <div class="container">
-    <div class="row justify-content-center align-items-center">
-        <div class="col-md-6">
-            <div class="mt-5">
-                <div class="input-group align-items-center relative-position">
+    <div class="row justify-content-center align-items-center  d-flex">
+        <div class="col-md-6 ">
+            <div class="mt-5 align-items-center">
+                <h1 class="display-4 font-weight-bold text-primary text-center"> <img
+                        src="assets/images/infiniteLogo.jpg" alt="">
+                    Welcome to iColleague
+
+                </h1>
+                <div class="input-group relative-position mt-5">
                     <span class="p-input-icon-right">
-                        <i class="pi pi-times absolute-position" style="font-size: 1 rem; cursor: pointer;"
-                            (click)="clearSearchInput()" pTooltip="Clear" tooltipPosition="right"></i>
+                        <i *ngIf="showCloseIcon" class="pi pi-times absolute-position" style="font-size: 1 rem; cursor: pointer;"
+                            (click)="clearSearchInput()"></i>
                         <p-autoComplete class="form-control searchBox no-border" [(ngModel)]="selectedQuery"
                             [forceSelection]="true" [suggestions]="filteredQueries"
                             (completeMethod)="filterData($event)" field="question" (input)="updateTypedValue($event)"
-                            (keyup.enter)="search(selectedQuery)">
+                            (keyup.enter)="search(selectedQuery)" placeholder="Type to search">
                         </p-autoComplete>
                     </span>
-                    <p-button (onClick)="search(selectedQuery)" label="Search"></p-button>
+                    <div class="searchButton">
+                        <p-button class="ms-1 " (onClick)="search(selectedQuery)" label="Search"></p-button>
+                    </div>
                 </div>
-                <!-- <p-autoComplete class="form-control searchBox no-border" [(ngModel)]="selectedQuery"
-                    [forceSelection]="true" [suggestions]="filteredQueries" (completeMethod)="filterData($event)"
-                    field="question" (input)="updateTypedValue($event)" (keyup.enter)="search(selectedQuery)"> 
-                    <i class="pi pi-times" style="font-size: 1.5rem" (click)="clearSearchInput()"></i></p-autoComplete> -->
-
             </div>
         </div>
     </div>
     <div *ngIf="result.length > 0" class="d-flex">
-         Showing result for <div class="ms-1 text-primary"> {{searchQuery}} </div>
+        Showing result for <div class="ms-1 text-primary"> {{searchQuery}} </div>
     </div>
 
     <div *ngFor="let res of result">
@@ -35,9 +37,10 @@
 </div>
 
 
-<div *ngFor="let message of messages">
+
+<!-- <div *ngFor="let message of messages">
     {{ message.from.id }}: {{ message.text }}
   </div>
   
   <input [(ngModel)]="newMessage" placeholder="Type a message..." />
-  <button (click)="sendMessage()">Send</button>
+  <button (click)="sendMessage()">Send</button> -->

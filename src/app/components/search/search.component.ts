@@ -16,8 +16,8 @@ interface AutoCompleteCompleteEvent {
 
 export class SearchComponent implements OnInit {
 
-  messages: any[] = [];
-  newMessage: string = '';
+  // messages: any[] = [];
+  // newMessage: string = '';
 
 
   private searchTerms = new Subject<string>();
@@ -31,14 +31,12 @@ export class SearchComponent implements OnInit {
   filteredQueries: knowledgeBase[] = [];
   result: knowledgeBase[] = []
 
+  showCloseIcon:boolean = false;
   constructor(private dbService: DbService,private directLineService: DirectLineService, private messageService: MessageService) { }
 
   ngOnInit() {
 
-    // Receive messages from the bot
-    this.directLineService.receiveMessage((message) => {
-      this.messages.push(message);
-    });
+   
 
     this.dbService.getQueries().subscribe((queries) => {
       this.queries = queries;
@@ -46,44 +44,20 @@ export class SearchComponent implements OnInit {
 
     });
 
-    // this.dbService.getData().subscribe(
-    //   (response) => {
-    //     console.log('GET Request Response:', response);
-    //   },
-    //   (error) => {
-    //     console.error('GET Request Error:', error);
-    //   }
-    // );
-
-    // const postData = { /* your data for POST request */ };
-    // this.dbService.postData(postData).subscribe(
-    //   (response) => {
-    //     console.log('POST Request Response:', response);
-    //   },
-    //   (error) => {
-    //     console.warn('POST Request Error:', error);
-    //   }
-    // );
-    //for delay filtering
-
-    // this.searchTerms.pipe(debounceTime(1000)).subscribe((query) => {
-    //   // Call your filterData method with the debounced query
-    //   this.filterData({ query: query } as AutoCompleteCompleteEvent);
-    // });
   }
 
   // Send a message to the bot
-  sendMessage() {
-    if (this.newMessage.trim() !== '') {
-      this.directLineService.sendMessage(this.newMessage);
-      this.newMessage = '';
-    }
-  }
+  // sendMessage() {
+  //   if (this.newMessage.trim() !== '') {
+  //     this.directLineService.sendMessage(this.newMessage);
+  //     this.newMessage = '';
+  //   }
+  // }
 
   updateTypedValue(event: any) {
     // this.typedValue = value;
     this.typedValue = event.target.value
-
+this.showCloseIcon = true
 
   }
 
@@ -163,6 +137,7 @@ export class SearchComponent implements OnInit {
   clearSearchInput() {
     this.selectedQuery = '';  // Clear the selectedQuery value
     this.filterData();  // Call filterData with an empty query to refresh suggestions
+    this.showCloseIcon = false;
   }
 
 }

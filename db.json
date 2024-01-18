@@ -15,7 +15,7 @@
     {
       "id": 3,
       "question": "How to reset Password?",
-      "answer": "Follow the below steps:<br/>1. Go to the login page.<br/>2. Click on the 'Forgot Password' link.<br/>3. Enter your email address.<br/>4. Check your email for a password reset link.<br/>5. Click on the link and follow the instructions to reset your password.<br/><br/>For more information, visit <a href='http://www.example.com' target='_blank'>reset password</a>.",
+      "answer": "<b>Follow the below steps:</b><br/>1. Go to the login page.<br/>2. Click on the 'Forgot Password' link.<br/>3. Enter your email address.<br/>4. Check your email for a password reset link.<br/>5. Click on the link and follow the instructions to reset your password.<br/><br/>For more information, visit <a href='http://www.example.com' target='_blank'>reset password</a>.",
       "description": "Full Details"
     },
     {

@@ -25,11 +25,11 @@ export class CardComponent implements OnInit {
   }
  
 
-  formatAnswer(answer: string): string {
-    // Use a regular expression to find URLs in the answer
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const formattedAnswer = answer.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
+  // formatAnswer(answer: string): string {
+  //   // Use a regular expression to find URLs in the answer
+  //   const urlRegex = /(https?:\/\/[^\s]+)/g;
+  //   const formattedAnswer = answer.replace(urlRegex, '<a href="$1" target="_blank">$1</a>');
 
-    return formattedAnswer;
-  }
+  //   return formattedAnswer;
+  // }
 }
