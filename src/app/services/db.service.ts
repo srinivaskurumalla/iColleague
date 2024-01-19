@@ -18,7 +18,7 @@ export class DbService {
   private apiUrl = 'http://localhost:3978/api';
   constructor(private http: HttpClient) { }
   getQueries(): Observable<knowledgeBase[]> {
-    return this.http.get<knowledgeBase[]>(' http://localhost:3000/knowledgeBase')//.toPromise();
+    return this.http.get<knowledgeBase[]>('https://localhost:7282/api/KnowledgeBase/GetAllData')//.toPromise();
   }
  
 

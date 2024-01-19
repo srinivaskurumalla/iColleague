@@ -18,7 +18,7 @@ export class CardComponent implements OnInit {
 
   }
   getSanitizedHTML(): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(this.data.answer);
+    return this.sanitizer.bypassSecurityTrustHtml(this.data?.answer);
   }
   toggleDetails() {
     this.showDetails = !this.showDetails

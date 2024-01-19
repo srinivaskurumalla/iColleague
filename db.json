@@ -15,7 +15,7 @@
     {
       "id": 3,
       "question": "How to reset Password?",
-      "answer": "<b>Follow the below steps:</b><br/>1. Go to the login page.<br/>2. Click on the 'Forgot Password' link.<br/>3. Enter your email address.<br/>4. Check your email for a password reset link.<br/>5. Click on the link and follow the instructions to reset your password.<br/><br/>For more information, visit <a href='http://www.example.com' target='_blank'>reset password</a>.",
+      "answer": "<b>Follow the below steps:</b><br/>1. Go to the login page.<br/>2. Click on the 'Forgot Password' link.<br/>3. Enter your email address.<br/>4. Check your email for a password reset link.<br/>5. Click on the link <a href='https://passwordreset.microsoftonline.com ' target='_blank'>reset password</a> and follow the instructions to reset your password.<br/>  ",
       "description": "Full Details"
     },
     {
@@ -35,6 +35,25 @@
       "question": "How to request for new Software?",
       "answer": "Follow the below steps to install new software",
       "decription": "Full Details"
+    },
+    {
+      "id": 7,
+      "question": "Holiday list?",
+      "answer": "please visit <a href='https://spandan.infinite.com/sites/SpandanHome/Pages/Holiday-List.aspx' target='_blank'>Holiday list</a>.",
+      "decription": "Full Details"
+    },
+    {
+      "id": 8,
+      "question": "Infinite logo?",
+      "answer": " here is image.   <img src=\"assets/images/infiniteLogo.jpg\" alt=''>",
+      "decription": "Full Details"
+    },
+    {
+      "id": 9,
+      "question": "Self service password reset (SSPR)",
+      "answer": "1. Open the web browser on your device and go to the password reset registration page. <a href='https://aka.ms/ssprsetup' target='_blank'> ssprsetup <a/><br/> 2. Enter your ICS Login ID/ Username (Ex- birupakhyad@infinite.com).<br/>3. You will be redirected to the ICS Azure portal login page.<br/>4. Input your current or assigned password.<br/>5. You should have at least one additional method configured.<br/>6. It is recommended, but not required, that you set up as many methods as you can.<br/>7. This gives you flexibility when one of the methods isn't available.<br/>8. Alternative Authentication Phone (call or text): A number other than your office phone<br/>9. Alternative Authentication Email: An email other than your work email",
+      "description": "Full Details"
     }
+    
   ]
 }

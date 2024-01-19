@@ -17,12 +17,16 @@ import { AccordionModule } from 'primeng/accordion';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { DirectLineService } from './services/direct-line.service';
-
+import { HeaderComponent } from './components/header/header.component';
+import { ToolbarModule } from 'primeng/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    CardComponent
+    CardComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,10 @@ import { DirectLineService } from './services/direct-line.service';
     TooltipModule,
     AccordionModule,
     AvatarModule,
-    BadgeModule
+    BadgeModule,
+    ToolbarModule,
+    MatIconModule,
+    MatToolbarModule
     
   ],
   providers: [MessageService,DirectLineService],

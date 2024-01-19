@@ -1,16 +1,16 @@
 <div class="container">
     <div class="row justify-content-center align-items-center  d-flex">
-        <div class="col-md-6 ">
+        <div class="col-lg-6 ">
             <div class="mt-5 align-items-center">
-                <h1 class="display-4 font-weight-bold text-primary text-center"> <img
+                <!-- <h1 class="display-6 font-weight-bold text-primary text-center"> <img
                         src="assets/images/infiniteLogo.jpg" alt="">
                     Welcome to iColleague
 
-                </h1>
-                <div class="input-group relative-position mt-5">
+                </h1> -->
+                <div class="input-group relative-position mt-4">
                     <span class="p-input-icon-right">
-                        <i *ngIf="showCloseIcon" class="pi pi-times absolute-position" style="font-size: 1 rem; cursor: pointer;"
-                            (click)="clearSearchInput()"></i>
+                        <i *ngIf="showCloseIcon" class="pi pi-times absolute-position"
+                            style="font-size: 1 rem; cursor: pointer;" (click)="clearSearchInput()"></i>
                         <p-autoComplete class="form-control searchBox no-border" [(ngModel)]="selectedQuery"
                             [forceSelection]="true" [suggestions]="filteredQueries"
                             (completeMethod)="filterData($event)" field="question" (input)="updateTypedValue($event)"
@@ -24,17 +24,28 @@
             </div>
         </div>
     </div>
-    <div *ngIf="result.length > 0" class="d-flex">
-        Showing result for <div class="ms-1 text-primary"> {{searchQuery}} </div>
+    <div class="row  align-items-start">
+        <div [ngClass]="{'col-8': true, 'shadow': result.length > 0, 'rounded': result.length > 0}" class="mt-1">
+            <div *ngIf="result.length > 0" class="d-flex text-white">
+                Showing result for <div class="ms-1 text-primary"> {{searchQuery}} </div>
+            </div>
+            <div class="">
+                <div *ngFor="let res of result">
+                    <app-card [data]="res" ></app-card>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-1"></div> -->
+        <div class="col-4 mt-2 shadow rounded second-column">
+            <h3>Frequently asked questions</h3>
+            <div *ngFor="let res of faqs">
+                <app-card [data]="res"></app-card>
+            </div>
+        </div>
     </div>
-
-    <div *ngFor="let res of result">
-        <app-card [data]="res"></app-card>
-
-    </div>
-
     <p-toast></p-toast>
 </div>
+
 
 
 

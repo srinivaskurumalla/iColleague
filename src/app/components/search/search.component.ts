@@ -3,6 +3,9 @@ import { debounceTime, Subject } from 'rxjs';
 import { DbService, knowledgeBase } from 'src/app/services/db.service';
 import { MessageService } from 'primeng/api';
 import { DirectLineService } from 'src/app/services/direct-line.service';
+// @ts-ignore
+import submitSendBox from './actions/submitSendBox';
+
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
   query: string;
@@ -31,18 +34,27 @@ export class SearchComponent implements OnInit {
   filteredQueries: knowledgeBase[] = [];
   result: knowledgeBase[] = []
 
-  showCloseIcon:boolean = false;
-  constructor(private dbService: DbService,private directLineService: DirectLineService, private messageService: MessageService) { }
+  showCloseIcon: boolean = false;
+
+  faqs: knowledgeBase[] = []
+  constructor(private dbService: DbService, private directLineService: DirectLineService, private messageService: MessageService) { }
 
   ngOnInit() {
 
-   
 
     this.dbService.getQueries().subscribe((queries) => {
       this.queries = queries;
-      console.log('all queries', this.queries);
+      console.log('all queries from db', this.queries);
 
+      this.queries.forEach(query => {
+       if(query.id>2 && query.id < 7){
+        this.faqs.push(query)
+       }
+      });
+      console.log('faqs', this.faqs);
     });
+   
+    console.log('faqs', this.faqs);
 
   }
 
@@ -57,7 +69,7 @@ export class SearchComponent implements OnInit {
   updateTypedValue(event: any) {
     // this.typedValue = value;
     this.typedValue = event.target.value
-this.showCloseIcon = true
+    this.showCloseIcon = true
 
   }
 
