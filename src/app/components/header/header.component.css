@@ -12,6 +12,11 @@ img{
 .title{
   font-size: x-large;
   margin-left: 25px !important;
+  font-family:cursive;
+  font-weight: bolder;
+  text-decoration: underline;
+  /* color: rgb(40, 99, 57); */
+  
 }
 .header{
   background-color: rgb(95, 178, 150);

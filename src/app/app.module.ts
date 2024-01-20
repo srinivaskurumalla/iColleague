@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { SearchComponent } from './components/search/search.component';
 import { ButtonModule } from 'primeng/button';
 import { HttpClient, HttpClientModule } from "@angular/common/http";
-import {  FormsModule} from "@angular/forms";
+import {  FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardComponent } from './components/card/card.component';
@@ -21,12 +21,14 @@ import { HeaderComponent } from './components/header/header.component';
 import { ToolbarModule } from 'primeng/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { PostQueryComponent } from './components/post-query/post-query.component';
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
     CardComponent,
-    HeaderComponent
+    HeaderComponent,
+    PostQueryComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     BadgeModule,
     ToolbarModule,
     MatIconModule,
-    MatToolbarModule
+    MatToolbarModule,
+    ReactiveFormsModule
     
   ],
   providers: [MessageService,DirectLineService],

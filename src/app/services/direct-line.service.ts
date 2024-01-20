@@ -1,11 +1,24 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as dl from 'botframework-directlinejs';
+import { Observable } from 'rxjs';
 
+interface BotMessage {
+  type: string;
+  from: { id: string; name: string };
+  text: string;
+  channelId: string;
+  conversation: { id: string };
+  recipient: { id: string; name: string };
+}
 @Injectable({
   providedIn: 'root',
 })
 export class DirectLineService {
   private directLine: any;
+  private botApiUrl = 'http://localhost:3978/api/messages';
+
+  constructor(private http: HttpClient) {}
 
   // constructor() {
   //   // Get the conversation ID from somewhere (e.g., a previous conversation)
@@ -34,17 +47,36 @@ export class DirectLineService {
  
   
   // Send a message to the bot
-  sendMessage(message: string) {
-    this.directLine.postActivity({
-      from: { id: 'user' },
+  // sendMessage(message: string) {
+  //   this.directLine.postActivity({
+  //     from: { id: 'user' },
+  //     type: 'message',
+  //     text: message,
+  //   }).subscribe(
+  //     (id: any) => console.log("Posted activity, assigned ID ", id),
+  //     (error: any) => console.log("Error posting activity", error)
+  //   );
+  // }
+ 
+  
+  sendMessageToBot(message: string): Observable<any> {
+    const payload: BotMessage = {
       type: 'message',
+      from: { id: 'userId', name: 'User' },
       text: message,
-    }).subscribe(
-      (id: any) => console.log("Posted activity, assigned ID ", id),
-      (error: any) => console.log("Error posting activity", error)
-    );
+      channelId: 'webchat',
+      conversation: { id: 'conversationId' },
+      recipient: { id: 'botId', name: 'Bot' }
+    };
+  
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    
+    // Include headers in your HTTP request
+    const options = { headers: headers };
+    return this.http.post<any>('http://localhost:3978/api/messages', payload,options);
   }
-
   // Receive messages from the bot
   receiveMessage(callback: (message: any) => void) {
     this.directLine.activity$.subscribe(callback);

@@ -33,6 +33,12 @@ export class SearchComponent implements OnInit {
 
   filteredQueries: knowledgeBase[] = [];
   result: knowledgeBase[] = []
+  resultById: knowledgeBase = {
+    id: 0,
+    question: '',
+    answer: '',
+    description: ''
+  };
 
   showCloseIcon: boolean = false;
 
@@ -41,20 +47,26 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
 
-
+    // this.directLineService.sendMessageToBot('hi').subscribe(
+    //   (res: any) => {
+    //     console.log('msg from BOT', res);
+    //   },
+    //   (err) => {
+    //     console.log('error from BOT', err);
+    //   }
+    // )
     this.dbService.getQueries().subscribe((queries) => {
       this.queries = queries;
       console.log('all queries from db', this.queries);
 
       this.queries.forEach(query => {
-       if(query.id>2 && query.id < 7){
-        this.faqs.push(query)
-       }
+        if (query.id > 2 && query.id < 7) {
+          this.faqs.push(query)
+        }
       });
       console.log('faqs', this.faqs);
     });
-   
-    console.log('faqs', this.faqs);
+
 
   }
 
@@ -73,9 +85,9 @@ export class SearchComponent implements OnInit {
 
   }
 
-  showWarn(message: string) {
-    this.messageService.add({ severity: 'warn', summary: 'Warn', detail: message });
-  }
+  // showWarn(message: string) {
+  //   this.messageService.add({ severity: 'warn', summary: 'Warn', detail: message });
+  // }
   filterData(event?: AutoCompleteCompleteEvent) {
     let filtered: knowledgeBase[] = [];
     let query = event?.query.toLowerCase(); // convert query to lowercase for case-insensitive matching
@@ -101,10 +113,17 @@ export class SearchComponent implements OnInit {
   // }
 
   search(selectedQuery?: any) {
+    this.resultById = {
+      id: 0,
+      question: '',
+      answer: '',
+      description: ''
+    }
+
     console.log('type value in search', this.typedValue);
 
     if ((this.typedValue === '' || this.typedValue == undefined) && (selectedQuery == null || selectedQuery == undefined || selectedQuery == '')) {
-      this.showWarn('Please enter something to search');
+     this.dbService.showWarn('Please enter something to search');
       console.log('warning user does not entered any value');
 
       return;
@@ -137,10 +156,25 @@ export class SearchComponent implements OnInit {
     }
 
     if (this.result.length == 0) {
-      this.showWarn('No matching query found. Please select relevent query')
+     this.dbService.showWarn('No matching query found. Please search and select relevent query')
     }
   }
+  searchById(id: number) {
+    this.result = []
+    console.log('id:', id);
+    this.dbService.getQueryById(id).subscribe(
+      (res: knowledgeBase) => {
+        this.resultById = res;
+        this.searchQuery = res.question
+        console.log('query by id:', this.resultById);
 
+      },
+      (err) => {
+        console.log('error query by id', err);
+      }
+    )
+
+  }
   updateSelectedQuery(value: any) {
     this.selectedQuery = value;
     //this.selectedQuery = { question: value };

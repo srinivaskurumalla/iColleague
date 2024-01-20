@@ -8,17 +8,43 @@ import { knowledgeBase } from 'src/app/services/db.service';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit {
-  @Input() data!: knowledgeBase;
+  @Input() data: knowledgeBase = {
+    id: 0,
+    question: '',
+    answer: '',
+    description: ''
+  };
+  @Input() dataById: knowledgeBase= {
+    id: 0,
+    question: '',
+    answer: '',
+    description: ''
+  };
+  queryById:boolean = false;
+  show:boolean=false;
   constructor(private sanitizer: DomSanitizer) { }
 
   showDetails: boolean = false;
   
   ngOnInit(): void {
-    console.log('data', this.data);
+     console.log('data', this.data);
+     console.log('data By Id', this.dataById);
 
   }
   getSanitizedHTML(): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(this.data?.answer);
+    this.queryById = false
+    const data =  this.sanitizer.bypassSecurityTrustHtml(this.data?.answer);
+    if(data != undefined){
+      this.show = true
+
+      return data;
+    }
+    else return ''
+  }
+  getSanitizedHTMLById(): SafeHtml {
+    this.queryById = true;
+    
+    return this.sanitizer.bypassSecurityTrustHtml(this.dataById?.answer);
   }
   toggleDetails() {
     this.showDetails = !this.showDetails
