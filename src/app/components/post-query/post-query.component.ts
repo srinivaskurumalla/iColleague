@@ -9,29 +9,76 @@ import { DbService } from 'src/app/services/db.service';
 })
 export class PostQueryComponent implements OnInit {
   form: FormGroup;
+  selectedFile: File | null = null;
 
   constructor(private fb: FormBuilder, private dbService: DbService) {
     this.form = this.fb.group({
       question: ['', Validators.required],
       answer: ['', Validators.required],
       description: [''],
+
     });
+   
   }
   ngOnInit(): void {
   }
-
-
-  submitForm() {
-    if (this.form.valid) {
-      const formData = this.form.value;
-      this.dbService.insertData(formData).subscribe(
+ 
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+  uploadFile() {
+    if (this.selectedFile) {
+      this.dbService.sendFile(this.selectedFile).subscribe(
         response => {
-          console.log(response);
-          this.dbService.showSuccess('Query added successfully')
-          this.form.reset()
+          console.log('File uploaded successfully:', response);
+          // Handle success, if needed
         },
-        error => console.error(error)
+        error => {
+          console.error('Error uploading file:', error);
+          // Handle error, if needed
+        }
       );
     }
   }
+
+  downloadFile() {
+    const fileId = 3; // Replace with the actual file ID
+    this.dbService.downloadFile(fileId).subscribe(blob => {
+      // Create a Blob object from the response
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      // Create a link element and simulate a click to trigger the download
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'downloaded-file'; // You can set the default filename here
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up resources
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    });
+  }
+  submitForm() {
+    if (this.form.valid) {
+      console.log('file', this.form.value.file);
+      const formData = this.form.value;
+      const fileInput = this.form.get('file');
+
+      if (fileInput && fileInput?.value && fileInput.value.length > 0) {
+        const file: File = fileInput.value[0];
+        const fileName = file.name;
+        console.log('File Name:', fileName);
+      }
+    }
+    this.dbService.insertData(this.form.value).subscribe(
+      response => {
+        console.log(response);
+        this.dbService.showSuccess('Query added successfully')
+        this.form.reset()
+      },
+      error => console.error(error)
+    );
+  }
 }
+

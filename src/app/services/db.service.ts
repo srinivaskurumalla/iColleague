@@ -28,7 +28,31 @@ export class DbService {
     return this.http.post<boolean>(`${this.apiUrl}/PostQuery`, data, { headers });
   }
   
+  uploadFile(file: File): FormData {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return formData;
+  }
 
+  sendFile(file: File) {
+    const formData = this.uploadFile(file);
+    return this.http.post(`${this.apiUrl}/UploadFile`, formData);
+  }
+
+
+  downloadFile(fileId: number): Observable<Blob> {
+    const url = `${this.apiUrl}/GetFileById/${fileId}`;
+    return this.http.get(url, { responseType: 'blob' });
+  }
+//   uploadFile(file: File) {
+//     const formData = new FormData();
+//     formData.append('file', file);
+  
+//     const headers = new HttpHeaders();
+// headers.append('Content-Type', 'multipart/form-data');
+
+//     return this.http.post<any>(`${this.apiUrl}/UploadFile`, formData, {headers});
+//   }
 
   showWarn(message: string) {
     this.messageService.add({ severity: 'warn', summary: 'Warn', detail: message });
