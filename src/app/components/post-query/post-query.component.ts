@@ -28,13 +28,15 @@ export class PostQueryComponent implements OnInit {
   }
   uploadFile() {
     if (this.selectedFile) {
-      this.dbService.sendFile(this.selectedFile).subscribe(
+      this.dbService.sendFile(this.selectedFile,3).subscribe(
         response => {
           console.log('File uploaded successfully:', response);
           // Handle success, if needed
+          this.dbService.showSuccess('File uploaded successfully');
         },
         error => {
           console.error('Error uploading file:', error);
+          this.dbService.showError('File upload failed')
           // Handle error, if needed
         }
       );
@@ -57,6 +59,7 @@ export class PostQueryComponent implements OnInit {
       // Clean up resources
       document.body.removeChild(link);
       window.URL.revokeObjectURL(blobUrl);
+      this.dbService.showSuccess('File downloaded successfully')
     });
   }
   submitForm() {

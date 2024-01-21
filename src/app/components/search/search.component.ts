@@ -163,7 +163,7 @@ export class SearchComponent implements OnInit {
     this.result = []
     console.log('id:', id);
     this.dbService.getQueryById(id).subscribe(
-      (res: knowledgeBase) => {
+      (res: any) => {
         this.resultById = res;
         this.searchQuery = res.question
         console.log('query by id:', this.resultById);

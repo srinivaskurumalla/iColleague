@@ -18,10 +18,10 @@ export class DbService {
   private apiUrl = 'https://localhost:7282/api/KnowledgeBase';
   constructor(private http: HttpClient,private messageService: MessageService) { }
   getQueries(): Observable<knowledgeBase[]> {
-    return this.http.get<knowledgeBase[]>('https://localhost:7282/api/KnowledgeBase/GetAllData')//.toPromise();
+    return this.http.get<knowledgeBase[]>(`${this.apiUrl}/GetAllData`)//.toPromise();
   }
-  getQueryById(id: number): Observable<knowledgeBase> {
-    return this.http.get<knowledgeBase>(`https://localhost:7282/api/KnowledgeBase/GetById/${id}`);
+  getQueryById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/GetById/${id}`);
   }
   insertData(data: any) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -30,13 +30,13 @@ export class DbService {
   
   uploadFile(file: File): FormData {
     const formData = new FormData();
-    formData.append('file', file, file.name);
+    formData.append('file', file);
     return formData;
   }
 
-  sendFile(file: File) {
+  sendFile(file: File, queryId:number) {
     const formData = this.uploadFile(file);
-    return this.http.post(`${this.apiUrl}/UploadFile`, formData);
+    return this.http.post(`${this.apiUrl}/UploadFile?queryId=${queryId}`, formData);
   }
 
 
@@ -44,15 +44,7 @@ export class DbService {
     const url = `${this.apiUrl}/GetFileById/${fileId}`;
     return this.http.get(url, { responseType: 'blob' });
   }
-//   uploadFile(file: File) {
-//     const formData = new FormData();
-//     formData.append('file', file);
-  
-//     const headers = new HttpHeaders();
-// headers.append('Content-Type', 'multipart/form-data');
 
-//     return this.http.post<any>(`${this.apiUrl}/UploadFile`, formData, {headers});
-//   }
 
   showWarn(message: string) {
     this.messageService.add({ severity: 'warn', summary: 'Warn', detail: message });
@@ -61,15 +53,8 @@ export class DbService {
   showSuccess(message: string) {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: message });
   }
-  //  // HTTP POST request example
-  //  postData(data: any): Observable<any> {
-  //   const url = `${this.apiUrl}/messages`;
-  //   return this.http.post(url, data);
-  // }
-
-  // // HTTP GET request example
-  // getData(): Observable<any> {
-  //   const url = `${this.apiUrl}/messages`;
-  //   return this.http.get(url);
-  // }
+  showError(message: string) {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: message });
+  }
+  
 }
