@@ -18,17 +18,17 @@ export class PostQueryComponent implements OnInit {
       description: [''],
 
     });
-   
+
   }
   ngOnInit(): void {
   }
- 
+
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
   uploadFile() {
     if (this.selectedFile) {
-      this.dbService.sendFile(this.selectedFile,3).subscribe(
+      this.dbService.sendFile(this.selectedFile, 3).subscribe(
         response => {
           console.log('File uploaded successfully:', response);
           // Handle success, if needed
@@ -64,24 +64,57 @@ export class PostQueryComponent implements OnInit {
   }
   submitForm() {
     if (this.form.valid) {
-      console.log('file', this.form.value.file);
-      const formData = this.form.value;
-      const fileInput = this.form.get('file');
 
-      if (fileInput && fileInput?.value && fileInput.value.length > 0) {
-        const file: File = fileInput.value[0];
-        const fileName = file.name;
-        console.log('File Name:', fileName);
+      const answerValue = this.form.get('answer')?.value;
+
+      // Match URL pattern in answerValue
+      const urlMatch = answerValue?.match(/((?:https?:\/\/)|(?:www\.))(?:\S+[^.,;])?/g);
+
+      let extractedWord = 'here';
+
+      if (urlMatch && urlMatch.length > 0) {
+       
+        const url = urlMatch[0];
+        console.log('Extracted URL:', url);
+      
+        // Extract the word from the URL
+        const match = url.match(/\/\/([^\/.]+)\.([^\/.]+)\./);
+
+        if (match) {
+          for (let mtch of match) {
+            console.log('matched url names', mtch);
+  
+          }
+          extractedWord = match[1];
+          console.log('Extracted Word:', extractedWord);
+        } else {
+          console.log('No match found for extracting word');
+        }
+      } else {
+        console.log('No match found for extracting URL');
       }
+
+      // Transform the link into the desired format
+      const transformedAnswer = answerValue?.replace(
+        /((?:https?:\/\/)|(?:www\.))(?:\S+[^.,;])?/g,
+        `<a href="${urlMatch}" target="_blank">${extractedWord}</a>`
+      );
+
+
+
+      const data = {
+        ...this.form.value,
+        answer: transformedAnswer
+      };
+      this.dbService.insertData(data).subscribe(
+        response => {
+          console.log(response);
+          this.dbService.showSuccess('Query added successfully')
+          this.form.reset()
+        },
+        error => console.error(error)
+      );
     }
-    this.dbService.insertData(this.form.value).subscribe(
-      response => {
-        console.log(response);
-        this.dbService.showSuccess('Query added successfully')
-        this.form.reset()
-      },
-      error => console.error(error)
-    );
   }
 }
 
