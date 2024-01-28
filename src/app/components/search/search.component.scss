@@ -51,11 +51,32 @@ img {
     height: 50px;
 }
 .second-column{
-    margin-top: 300px !important;
+    margin-top: 200px !important;
+    position: fixed;
+    top: 150px; /* Adjust the top position as needed */
+    left: 900px; /* Adjust the left position as needed */
+    z-index: 1000; /* Set a z-index to ensure it appears above other elements if needed */
+    // background-color: #fff; /* Optional: Set a background color */
+    padding: 10px; /* Optional: Add padding for better styling */
+    border: 1px solid #ccc; /* Optional: Add a border for better styling */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a box shadow for a subtle elevation */
+  
 }
 .faqs{
     cursor: pointer;
 }
 h3{
     margin: 0px;
+}
+
+.searchBar{
+    position: fixed;
+    top: 100px;
+    left: 350px;
+    width: 100%;
+    z-index: 1000;
+    // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+.content {
+    margin-top: 30px;
 }

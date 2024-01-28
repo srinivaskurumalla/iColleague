@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { debounceTime, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { DbService, knowledgeBase } from 'src/app/services/db.service';
 import { MessageService } from 'primeng/api';
 import { DirectLineService } from 'src/app/services/direct-line.service';
-// @ts-ignore
-import submitSendBox from './actions/submitSendBox';
+
+import { query } from '@angular/animations';
+import { KnowledgeBaseDto } from 'src/app/Models/knowledgeBaseDto.interface';
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -23,7 +24,6 @@ export class SearchComponent implements OnInit {
   // newMessage: string = '';
 
 
-  private searchTerms = new Subject<string>();
   searchQuery!: string
   typedValue!: string
 
@@ -40,54 +40,50 @@ export class SearchComponent implements OnInit {
     description: ''
   };
 
+  knowledgeBaseAndFilesById: KnowledgeBaseDto ={
+    id: 0,
+    question: '',
+    answer: '',
+    description: '',
+    fileTables: []
+  }
   showCloseIcon: boolean = false;
 
   faqs: knowledgeBase[] = []
-  constructor(private dbService: DbService, private directLineService: DirectLineService, private messageService: MessageService) { }
+  constructor(private dbService: DbService) { }
 
   ngOnInit() {
 
-    // this.directLineService.sendMessageToBot('hi').subscribe(
-    //   (res: any) => {
-    //     console.log('msg from BOT', res);
-    //   },
-    //   (err) => {
-    //     console.log('error from BOT', err);
-    //   }
-    // )
+   
     this.dbService.getQueries().subscribe((queries) => {
       this.queries = queries;
       console.log('all queries from db', this.queries);
 
       this.queries.forEach(query => {
-        if (query.id > 2 && query.id < 7) {
+        if(query.id == 34){
+          this.faqs.push(query);
+        }
+        if (query.id > 2 && query.id < 10) {
           this.faqs.push(query)
         }
       });
+
+     
       console.log('faqs', this.faqs);
     });
 
 
   }
 
-  // Send a message to the bot
-  // sendMessage() {
-  //   if (this.newMessage.trim() !== '') {
-  //     this.directLineService.sendMessage(this.newMessage);
-  //     this.newMessage = '';
-  //   }
-  // }
+
 
   updateTypedValue(event: any) {
-    // this.typedValue = value;
     this.typedValue = event.target.value
     this.showCloseIcon = true
 
   }
 
-  // showWarn(message: string) {
-  //   this.messageService.add({ severity: 'warn', summary: 'Warn', detail: message });
-  // }
+ 
   filterData(event?: AutoCompleteCompleteEvent) {
     let filtered: knowledgeBase[] = [];
     let query = event?.query.toLowerCase(); // convert query to lowercase for case-insensitive matching
@@ -103,70 +99,72 @@ export class SearchComponent implements OnInit {
 
     this.filteredQueries = filtered;
 
-    //console.log('filtered queries', this.filteredQueries);
   }
 
-  // The method to handle user input      =========> (completeMethod)="handleUserInput($event.query)"  in HTML
-  //  handleUserInput(query: string) {
-  //   // Push the search query into the observable stream
-  //   this.searchTerms.next(query);
-  // }
+  
 
   search(selectedQuery?: any) {
+    //assign initial values
     this.resultById = {
       id: 0,
       question: '',
       answer: '',
       description: ''
     }
-
+    this.knowledgeBaseAndFilesById = {
+      id:0,
+      question:'',
+      answer:'',
+      description:'',
+      fileTables:[]
+    }
     console.log('type value in search', this.typedValue);
 
+    //handle not typing any value
     if ((this.typedValue === '' || this.typedValue == undefined) && (selectedQuery == null || selectedQuery == undefined || selectedQuery == '')) {
      this.dbService.showWarn('Please enter something to search');
       console.log('warning user does not entered any value');
 
       return;
     }
+
+    //empty previous seach queries
     this.result = []
+
+    //fetch details of selected query from suggestion
     if (selectedQuery != null && selectedQuery != undefined && selectedQuery != '') {
       console.log('user selected query', selectedQuery);
       this.searchQuery = selectedQuery.question
-      this.filteredQueries.filter(ans => {
-        if (selectedQuery?.id) {
-          if (ans.id == selectedQuery?.id) {
-            this.result.push(ans);
-            console.log('id', selectedQuery?.id);
-            console.log('result from id', this.result);
-
-          }
-        }
-
-      })
+      this.searchById(selectedQuery)
+      return;
+     
     }
+    //handle not selected suggestions
     else {
-      this.searchQuery = this.typedValue
-      console.log('user not selected any query');
-      // this.updateSelectedQuery(this.typedValue)
-      console.log('modified selected query', this.selectedQuery);
-
+      this.searchQuery = this.typedValue     
       this.result = this.filteredQueries;
-      console.log('result ', this.result);
-
     }
 
+    //show warning if none of the queries matched
     if (this.result.length == 0) {
      this.dbService.showWarn('No matching query found. Please search and select relevent query')
     }
   }
-  searchById(id: number) {
+
+  //fetch details by queryId | files also fetched from files table
+  searchById(query:knowledgeBase) {
     this.result = []
-    console.log('id:', id);
-    this.dbService.getQueryById(id).subscribe(
+    this.selectedQuery = query
+    this.showCloseIcon = true
+    console.log('id:', query.id);
+    this.dbService.getQueryAndFilesById(query.id).subscribe(
       (res: any) => {
-        this.resultById = res;
-        this.searchQuery = res.question
-        console.log('query by id:', this.resultById);
+        this.knowledgeBaseAndFilesById = res;
+        console.log('knowledgeBaseAndFilesById',this.knowledgeBaseAndFilesById)
+
+        // this.resultById = res;
+       
+        // console.log('query by id:', this.resultById);
 
       },
       (err) => {
@@ -175,6 +173,7 @@ export class SearchComponent implements OnInit {
     )
 
   }
+ 
   updateSelectedQuery(value: any) {
     this.selectedQuery = value;
     //this.selectedQuery = { question: value };

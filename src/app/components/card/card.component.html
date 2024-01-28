@@ -1,33 +1,64 @@
+<p-overlayPanel #downloadOptionsPanel>
+    <ul>
+        <li><button pButton type="button" icon="pi pi-download" (click)="downloadFile(fileId)"> Download</button></li>
+        <!-- Add more options as needed -->
+    </ul>
+</p-overlayPanel>
 
-
-<div class="card flex justify-content-center mb-2" *ngIf="data.id != 0 || dataById.id  != 0">
+<div class="card flex justify-content-center accordian-container mb-2" *ngIf="data.id != 0 || dataById.id != 0">
     <p-accordion class="w-full">
         <p-accordionTab>
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header" class="accordian-header">
                 <span class="flex align-items-center gap-2 w-full">
                     <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/avatar/amyelsner.png" shape="circle">
                     </p-avatar> -->
-                    <span class="font-bold white-space-nowrap" >{{ data.question!}}</span>
-                    <span class="font-bold white-space-nowrap" *ngIf="!queryById" >{{ dataById.question!}}</span>
+                    <span class="font-bold white-space-nowrap" *ngIf="data.id != 0">{{ data.question!}}</span>
+                    <span class="font-bold white-space-nowrap" *ngIf="dataById.id != 0">{{
+                        dataById.question}}</span>
                     <!-- <p-badge value="" class="ml-auto" ></p-badge> -->
                 </span>
             </ng-template>
-            <div class="m-0">
+            <div class="m-0 accordian-body">
                 <!-- <div [innerHTML]="data.answer"></div> -->
                 <!-- <div [innerHTML]="formatAnswer(data.answer)"></div> -->
-                <div *ngIf="!queryById"  [innerHTML]="getSanitizedHTML()"></div>
-                <div [innerHTML]="getSanitizedHTMLById()"></div>
+                <div *ngIf="data.id != 0" [innerHTML]="getSanitizedHTML()"></div>
+                <div *ngIf="dataById.id != 0 " [innerHTML]="getSanitizedHTMLById()"></div>
 
                 <!-- <div *ngFor="let step of data.answer.split('\n')">
                     {{ step }}
                   </div> -->
-                  
-                <p class="text-primary ms-1 more-details" (click)="toggleDetails()">{{showDetails ? 'hide details' :
-                    'show more details'}}</p>
+                <div *ngIf="dataById != undefined">
+                    <div *ngIf="dataById.fileTables && dataById.fileTables.length > 0">
+                        <h3>Attached Files:</h3>
+                        <ul>
+                            <li *ngFor="let file of dataById.fileTables">
+                                <div class="file-attachment">
+                                    <div class="file-icon">
+                                        <!-- Add logic to determine and set the appropriate icon class based on the file type -->
+
+                                        <i class="pi pi-file-pdf pi-lg" *ngIf="isPdfFile(file.fileName)"></i>
+                                        <i class="pi pi-file-word pi-lg" *ngIf="isWordFile(file.fileName)"></i>
+
+                                    </div>
+                                    <!-- Tot view File -->
+                                    <!-- <a [href]="getFileUrl(file)" target="_blank">{{ file.fileName }}</a> -->
+                                    <div class="fileName">{{ file.fileName }}</div>
+                                    <button pButton type="button" class="three-dots-button"
+                                        (click)="showDownloadOptions($event, downloadOptionsPanel, file)">
+                                        <i class="pi pi-ellipsis-h"></i>
+                                    </button>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- <p class="text-primary ms-1 more-details" (click)="toggleDetails()">{{showDetails ? 'hide details' :
+                    'show more details'}}</p> -->
             </div>
-            <p *ngIf="showDetails">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima neque sit repellat
+            <!-- <p *ngIf="showDetails">Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima neque sit repellat
                 facere sequi temporibus vero molestiae eligendi odit beatae maiores officiis obcaecati voluptatibus
-                necessitatibus expedita, unde tempore voluptas consectetur?</p>
+                necessitatibus expedita, unde tempore voluptas consectetur?</p> -->
 
         </p-accordionTab>
 

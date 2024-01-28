@@ -13,11 +13,11 @@ body {
    // background: url('https://img.freepik.com/free-vector/blue-curvy-abstract-background_1035-26.jpg') no-repeat center center fixed;
    //background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmfe94wMw_thikEeEhCIipZQE2THt49TGukA&usqp=CAU') no-repeat center center fixed;
   // background: url('https://static.vecteezy.com/system/resources/thumbnails/022/730/499/small/abstract-blue-background-with-smooth-lines-and-light-effects-photo.jpg') no-repeat center center fixed;
-   background: url('assets/images/BackgroundImage.jpeg') no-repeat center center fixed;
-   background: url('assets/images/Bg-Img.png') no-repeat center center fixed;
+   //background: url('assets/images/BackgroundImage.jpeg') no-repeat center center fixed;
+   background: url('assets/images/Bg-Img.png');
     background-size: cover; 
     margin: 0; 
   }
  
-html, body { height: 100%; }
+html, body { height: 90%; padding: 0%; margin: 0%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

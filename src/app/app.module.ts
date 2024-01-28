@@ -22,6 +22,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { PostQueryComponent } from './components/post-query/post-query.component';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,8 @@ import { PostQueryComponent } from './components/post-query/post-query.component
     ToolbarModule,
     MatIconModule,
     MatToolbarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    OverlayPanelModule,
     
   ],
   providers: [MessageService,DirectLineService],

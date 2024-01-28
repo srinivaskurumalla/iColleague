@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DbService } from 'src/app/services/db.service';
 
@@ -10,6 +10,7 @@ import { DbService } from 'src/app/services/db.service';
 export class PostQueryComponent implements OnInit {
   form: FormGroup;
   selectedFile: File | null = null;
+  @ViewChild('fileInput') fileInput: any;
 
   constructor(private fb: FormBuilder, private dbService: DbService) {
     this.form = this.fb.group({
@@ -26,13 +27,15 @@ export class PostQueryComponent implements OnInit {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
-  uploadFile() {
+  uploadFile(queryId:number) {
     if (this.selectedFile) {
-      this.dbService.sendFile(this.selectedFile, 3).subscribe(
+      this.dbService.sendFile(this.selectedFile, queryId).subscribe(
         response => {
           console.log('File uploaded successfully:', response);
           // Handle success, if needed
           this.dbService.showSuccess('File uploaded successfully');
+          //clear selected file
+          this.fileInput.nativeElement.value = '';
         },
         error => {
           console.error('Error uploading file:', error);
@@ -43,25 +46,7 @@ export class PostQueryComponent implements OnInit {
     }
   }
 
-  downloadFile() {
-    const fileId = 3; // Replace with the actual file ID
-    this.dbService.downloadFile(fileId).subscribe(blob => {
-      // Create a Blob object from the response
-      const blobUrl = window.URL.createObjectURL(blob);
-
-      // Create a link element and simulate a click to trigger the download
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = 'downloaded-file'; // You can set the default filename here
-      document.body.appendChild(link);
-      link.click();
-
-      // Clean up resources
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
-      this.dbService.showSuccess('File downloaded successfully')
-    });
-  }
+ 
   submitForm() {
     if (this.form.valid) {
 
@@ -107,8 +92,13 @@ export class PostQueryComponent implements OnInit {
         answer: transformedAnswer
       };
       this.dbService.insertData(data).subscribe(
-        response => {
-          console.log(response);
+        queryId => {
+          console.log('query added',queryId);
+
+          //if any file selected; add file too in fileTable
+          if(this.selectedFile){
+            this.uploadFile(queryId)
+          }
           this.dbService.showSuccess('Query added successfully')
           this.form.reset()
         },
