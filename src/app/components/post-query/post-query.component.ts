@@ -11,7 +11,7 @@ export class PostQueryComponent implements OnInit {
   form: FormGroup;
   selectedFile: File | null = null;
   @ViewChild('fileInput') fileInput: any;
-
+  fileType:string = ''
   constructor(private fb: FormBuilder, private dbService: DbService) {
     this.form = this.fb.group({
       question: ['', Validators.required],
@@ -24,9 +24,35 @@ export class PostQueryComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // onFileSelected(event: any) {
+  //   this.selectedFile = event.target.files[0];
+  // }
+
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    
+    // Check if the file has an allowed extension
+    if (this.isFileTypeAllowed(file)) {
+      this.selectedFile = file;
+      // Perform any file-related logic here
+    } else {
+      this.dbService.showWarn(`Invalid file type!! ${this.fileType} not allowed`);
+      // Optionally, you can reset the file input here
+      this.fileInput.nativeElement.value = '';
+    }
   }
+  
+  isFileTypeAllowed(file: File): boolean {
+    // Use non-null assertion operator to assert that file and file.name are not null or undefined
+    const fileType = '.' + (file!.name.split('.').pop() || '').toLowerCase();
+    this.fileType = fileType;
+    // Add logic to check if the file type is allowed
+    const allowedTypes = ['.jpg, .jpeg, .png, .pdf .xls .xlsx .doc .docs .pdf'];
+    return allowedTypes.includes(fileType);
+  }
+  
+  
+  
   uploadFile(queryId:number) {
     if (this.selectedFile) {
       this.dbService.sendFile(this.selectedFile, queryId).subscribe(
@@ -43,7 +69,7 @@ export class PostQueryComponent implements OnInit {
           // Handle error, if needed
         }
       );
-    }
+    }      
   }
 
  
