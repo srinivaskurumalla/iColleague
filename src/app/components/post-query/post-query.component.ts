@@ -47,7 +47,7 @@ export class PostQueryComponent implements OnInit {
     const fileType = '.' + (file!.name.split('.').pop() || '').toLowerCase();
     this.fileType = fileType;
     // Add logic to check if the file type is allowed
-    const allowedTypes = ['.jpg, .jpeg, .png, .pdf .xls .xlsx .doc .docs .pdf'];
+    const allowedTypes = ['.jpg', '.jpeg', '.png', '.pdf' ,'.xls' ,'.xlsx', '.doc', '.docs' ];
     return allowedTypes.includes(fileType);
   }
   

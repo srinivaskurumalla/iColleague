@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { interval, Subject } from 'rxjs';
 import { DbService, knowledgeBase } from 'src/app/services/db.service';
 import { MessageService } from 'primeng/api';
 import { DirectLineService } from 'src/app/services/direct-line.service';
 
-import { query } from '@angular/animations';
+import { animate, query, state, style, transition, trigger } from '@angular/animations';
 import { KnowledgeBaseDto } from 'src/app/Models/knowledgeBaseDto.interface';
 
 interface AutoCompleteCompleteEvent {
@@ -15,14 +15,23 @@ interface AutoCompleteCompleteEvent {
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  animations: [
+    trigger('scroll', [
+      state('up', style({ transform: 'translateY(0)' })),
+      state('down', style({ transform: 'translateY(-100%)' })),
+      transition('up <=> down', animate('15s linear')),
+    ]),
+  ],
 })
 
 export class SearchComponent implements OnInit {
 
   // messages: any[] = [];
   // newMessage: string = '';
-
+  currentIndex = 0;
+  itemsToShow = 5; // Adjust the number of items to show
+  scrollInterval = 3000; 
 
   searchQuery!: string
   typedValue!: string
@@ -30,6 +39,7 @@ export class SearchComponent implements OnInit {
   queries!: knowledgeBase[];
 
   selectedQuery!: any;
+  faqState = 'up';
 
   filteredQueries: knowledgeBase[] = [];
   result: knowledgeBase[] = []
@@ -63,7 +73,7 @@ export class SearchComponent implements OnInit {
         if(query.id == 34){
           this.faqs.push(query);
         }
-        if (query.id > 2 && query.id < 10) {
+        if (query.id > 2 && query.id < 34) {
           this.faqs.push(query)
         }
       });
@@ -72,11 +82,15 @@ export class SearchComponent implements OnInit {
       console.log('faqs', this.faqs);
     });
 
-
+    interval(this.scrollInterval).subscribe(() => {
+      this.currentIndex = (this.currentIndex + 1) % this.faqs.length;
+    });
   }
 
 
-
+  toggleScroll() {
+    this.faqState = this.faqState === 'up' ? 'down' : 'up';
+  }
   updateTypedValue(event: any) {
     this.typedValue = event.target.value
     this.showCloseIcon = true

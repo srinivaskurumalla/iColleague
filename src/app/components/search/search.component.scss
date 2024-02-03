@@ -60,7 +60,7 @@ img {
     padding: 10px; /* Optional: Add padding for better styling */
     border: 1px solid #ccc; /* Optional: Add a border for better styling */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a box shadow for a subtle elevation */
-  
+
 }
 .faqs{
     cursor: pointer;
@@ -80,3 +80,25 @@ h3{
 .content {
     margin-top: 30px;
 }
+li{
+    list-style: none;
+}
+// .scroll{
+//     animation: scrollAnimation 5s linear infinite;
+
+// }
+// @keyframes scrollAnimation {
+//     from {
+//       transform: translateY(0%);
+//     }
+//     to {
+//       transform: translateY(-50%);
+//     }
+//   }
+// .ques{
+//     text-decoration: none;
+//     display: flex;
+//     border: 1px solid wheat;
+//     background-color: white;
+//     // background-color: rgb(236, 4, 4,0.5);
+// }

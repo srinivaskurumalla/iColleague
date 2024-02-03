@@ -20,7 +20,9 @@
                     <div class="searchButton">
                         <p-button class="ms-1 " (onClick)="search(selectedQuery)" label="Search"></p-button>
                     </div>
+
                 </div>
+               
             </div>
         </div>
     </div>
@@ -29,6 +31,7 @@
             <div *ngIf="result.length > 0 || resultById.id > 0" class="d-flex text-white">
                 Showing result for <div class="ms-1 text-primary"> {{searchQuery}} </div>
             </div>
+
             <div *ngFor="let res of result">
                 <app-card [data]="res"></app-card>
             </div>
@@ -36,13 +39,16 @@
 
         </div>
         <div class="col-1"></div>
-        <div class="col-3 mt-2 shadow rounded second-column">
+        <div class="col-3 mt-2 shadow rounded second-column" >
             <h3>Frequently asked questions</h3>
 
             <div *ngFor="let res of faqs">
+                <!-- <div *ngFor="let res of faqs.slice(currentIndex, currentIndex + itemsToShow)"> -->
 
-                <li>
-                    <a class="faqs" (click)="searchById(res)">{{res.question}}</a>
+
+                <li class="scroll">
+                    <i class='fa fa-angle-right me-2'></i>
+                    <a class="faqs ques" (click)="searchById(res)">{{res.question}}</a>
                 </li>
 
             </div>
